@@ -27,15 +27,18 @@ sudo apt install unzip -y
 unzip -q NDK
 cd -
 export ANDROID_NDK_HOME=~/android-ndk-r21b
-#export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
+export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
 
-#export AR=${ARCH}-ar
-#export CC=${CLANG_PREFIX}-clang
-#export CXX=${CLANG_PREFIX}-clang++
-#export AS=${ARCH}-as
-#export LD=${ARCH}-ld
-#export RANLIB=${ARCH}-ranlib
-#export STRIP=${ARCH}-strip
+export AR=${ARCH}-ar
+export CC=${CLANG_PREFIX}-clang
+export CXX=${CLANG_PREFIX}-clang++
+export AS=${ARCH}-as
+export LD=${ARCH}-ld
+export RANLIB=${ARCH}-ranlib
+export STRIP=${ARCH}-strip
+
+which ${CC}
+which ${CXX}
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
@@ -47,7 +50,7 @@ tar xvfz ${SSL_LIB_NAME}.tar.gz
 cd "${SSL_LIB_NAME}"
 SSL_PREFIX_DIR="~/output/android/openssl-${OPENSSL_ARCH}"
 mkdir -p "${SSL_PREFIX_DIR}"
-./Configure ${OPENSSL_ARCH} --prefix="${SSL_PREFIX_DIR}"
+./Configure ${OPENSSL_ARCH} -D__ANDROID_API__=29 --prefix="${SSL_PREFIX_DIR}" 
 make -j4
 make install_ssldirs >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
 
