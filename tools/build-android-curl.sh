@@ -32,13 +32,13 @@ export PATH="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:
 
 export TOOLCHAIN="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64"
 
-export AR=TOOLCHAIN/bin/${ARCH}-ar
-export CC=$TOOLCHAIN/bin/{CLANG_PREFIX}-clang
-export CXX=TOOLCHAIN/bin/${CLANG_PREFIX}-clang++
-export AS=TOOLCHAIN/bin/${ARCH}-as
-export LD=TOOLCHAIN/bin/${ARCH}-ld
-export RANLIB=TOOLCHAIN/bin/${ARCH}-ranlib
-export STRIP=TOOLCHAIN/bin/${ARCH}-strip
+export AR=$TOOLCHAIN/bin/${ARCH}-ar
+export CC=$TOOLCHAIN/bin/${CLANG_PREFIX}-clang
+export CXX=$TOOLCHAIN/bin/${CLANG_PREFIX}-clang++
+export AS=$TOOLCHAIN/bin/${ARCH}-as
+export LD=$TOOLCHAIN/bin/${ARCH}-ld
+export RANLIB=$TOOLCHAIN/bin/${ARCH}-ranlib
+export STRIP=$TOOLCHAIN/bin/${ARCH}-strip
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
