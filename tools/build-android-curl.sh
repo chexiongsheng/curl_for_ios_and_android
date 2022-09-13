@@ -8,10 +8,12 @@ case $ARCH in
     arm-linux-androideabi)
         OPENSSL_ARCH="android-arm"
         OUTPUT="armeabi-v7a"
+        CLANG_PREFIX="armv7a-linux-androideabi29"
         ;;
     aarch64-linux-android)
         OPENSSL_ARCH="android-arm64"
         OUTPUT="arm64-v8a"
+        CLANG_PREFIX="aarch64-linux-android29"
         ;;
     *)
         echo "Unsupported architecture provided: $ARCH"
@@ -25,6 +27,15 @@ sudo apt install unzip -y
 unzip -q NDK
 cd -
 export ANDROID_NDK_HOME=~/android-ndk-r21b
+export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
+
+export AR=${ARCH}-ar
+export CC=${CLANG_PREFIX}-clang
+export CXX=${CLANG_PREFIX}-clang++
+export AS=${ARCH}-as
+export LD=${ARCH}-ld
+export RANLIB=${ARCH}-ranlib
+export STRIP=${ARCH}-strip
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
