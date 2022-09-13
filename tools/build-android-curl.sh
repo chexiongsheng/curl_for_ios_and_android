@@ -30,13 +30,15 @@ cd -
 export ANDROID_NDK_HOME=~/android-ndk-r21b
 export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
 
-export AR=${ARCH}-ar
-export CC=${CLANG_PREFIX}-clang
-export CXX=${CLANG_PREFIX}-clang++
-export AS=${ARCH}-as
-export LD=${ARCH}-ld
-export RANLIB=${ARCH}-ranlib
-export STRIP=${ARCH}-strip
+export TOOLCHAIN="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64"
+
+export AR=TOOLCHAIN/bin/${ARCH}-ar
+export CC=$TOOLCHAIN/bin/{CLANG_PREFIX}-clang
+export CXX=TOOLCHAIN/bin/${CLANG_PREFIX}-clang++
+export AS=TOOLCHAIN/bin/${ARCH}-as
+export LD=TOOLCHAIN/bin/${ARCH}-ld
+export RANLIB=TOOLCHAIN/bin/${ARCH}-ranlib
+export STRIP=TOOLCHAIN/bin/${ARCH}-strip
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
