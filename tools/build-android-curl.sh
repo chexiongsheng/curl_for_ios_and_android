@@ -27,15 +27,15 @@ sudo apt install unzip -y
 unzip -q NDK
 cd -
 export ANDROID_NDK_HOME=~/android-ndk-r21b
-export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
+#export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
 
-export AR=${ARCH}-ar
-export CC=${CLANG_PREFIX}-clang
-export CXX=${CLANG_PREFIX}-clang++
-export AS=${ARCH}-as
-export LD=${ARCH}-ld
-export RANLIB=${ARCH}-ranlib
-export STRIP=${ARCH}-strip
+#export AR=${ARCH}-ar
+#export CC=${CLANG_PREFIX}-clang
+#export CXX=${CLANG_PREFIX}-clang++
+#export AS=${ARCH}-as
+#export LD=${ARCH}-ld
+#export RANLIB=${ARCH}-ranlib
+#export STRIP=${ARCH}-strip
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
