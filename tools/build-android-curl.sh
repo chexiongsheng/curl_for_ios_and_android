@@ -3,17 +3,18 @@
 CURL_VERSION=$1
 SSL_VERSION=$2
 ARCH="$3"
+MIN_SDK_VERSION=29
 
 case $ARCH in
     arm-linux-androideabi)
         OPENSSL_ARCH="android-arm"
         OUTPUT="armeabi-v7a"
-        CLANG_PREFIX="armv7a-linux-androideabi29"
+        CLANG_PREFIX="armv7a-linux-androideabi$MIN_SDK_VERSION"
         ;;
     aarch64-linux-android)
         OPENSSL_ARCH="android-arm64"
         OUTPUT="arm64-v8a"
-        CLANG_PREFIX="aarch64-linux-android29"
+        CLANG_PREFIX="aarch64-linux-android$MIN_SDK_VERSION"
         ;;
     *)
         echo "Unsupported architecture provided: $ARCH"
@@ -47,7 +48,7 @@ tar xfz ${SSL_LIB_NAME}.tar.gz
 cd "${SSL_LIB_NAME}"
 SSL_PREFIX_DIR="${HOME}/output/android/openssl-${OPENSSL_ARCH}"
 mkdir -p "${SSL_PREFIX_DIR}"
-./Configure ${OPENSSL_ARCH} --prefix="${SSL_PREFIX_DIR}"
+./Configure ${OPENSSL_ARCH} -D__ANDROID_API__=$MIN_SDK_VERSION --prefix="${SSL_PREFIX_DIR}"
 make -j4
 make install
 
