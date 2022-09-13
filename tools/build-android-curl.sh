@@ -27,19 +27,15 @@ sudo apt install unzip -y
 unzip -q NDK
 cd -
 export ANDROID_NDK_HOME=~/android-ndk-r21b
-export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
+#export PATH="~/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
 
-export AR=${ARCH}-ar
-export CC=${CLANG_PREFIX}-clang
-export CXX=${CLANG_PREFIX}-clang++
-export AS=${ARCH}-as
-export LD=${ARCH}-ld
-export RANLIB=${ARCH}-ranlib
-export STRIP=${ARCH}-strip
-
-echo "${CC}"
-echo `which "${CC}"`
-echo `which "${CXX}"`
+#export AR=${ARCH}-ar
+#export CC=${CLANG_PREFIX}-clang
+#export CXX=${CLANG_PREFIX}-clang++
+#export AS=${ARCH}-as
+#export LD=${ARCH}-ld
+#export RANLIB=${ARCH}-ranlib
+#export STRIP=${ARCH}-strip
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
@@ -47,13 +43,13 @@ SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
 echo "download ${SSL_DOWNLOAD_URL}"
 
 curl ${SSL_DOWNLOAD_URL} >${SSL_LIB_NAME}.tar.gz
-tar xvfz ${SSL_LIB_NAME}.tar.gz
+tar xfz ${SSL_LIB_NAME}.tar.gz
 cd "${SSL_LIB_NAME}"
-SSL_PREFIX_DIR="~/output/android/openssl-${OPENSSL_ARCH}"
+SSL_PREFIX_DIR="${HOME}/output/android/openssl-${OPENSSL_ARCH}"
 mkdir -p "${SSL_PREFIX_DIR}"
-./Configure ${OPENSSL_ARCH} -D__ANDROID_API__=29 --prefix="${SSL_PREFIX_DIR}" 
+./Configure ${OPENSSL_ARCH} --prefix="${SSL_PREFIX_DIR}"
 make -j4
-make install_ssldirs >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+make install
 
 CURL_LIB_TAG="curl-$(echo $CURL_VERSION | sed 's/\./_/g')"
 CURL_LIB_NAME="curl-$CURL_VERSION"
@@ -64,7 +60,7 @@ echo "download ${CURL_DOWNLOAD_URL}"
 rm -rf "${LIB_DEST_DIR}" "${CURL_LIB_NAME}"
 curl -LO ${CURL_DOWNLOAD_URL} >${CURL_LIB_NAME}.tar.gz
 
-tar xvfz ${CURL_LIB_NAME}.tar.gz
+tar xfz ${CURL_LIB_NAME}.tar.gz
 cd "${CURL_LIB_NAME}"
 
 ./configure --target=${ARCH} --enable-static --with-ssl=${SSL_PREFIX_DIR} --without-nghttp2
