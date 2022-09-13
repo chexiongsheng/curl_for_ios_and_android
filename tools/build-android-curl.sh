@@ -37,8 +37,9 @@ export LD=${ARCH}-ld
 export RANLIB=${ARCH}-ranlib
 export STRIP=${ARCH}-strip
 
-which ${CC}
-which ${CXX}
+echo "${CC}"
+echo `which "${CC}"`
+echo `which "${CXX}"`
 
 SSL_LIB_NAME="openssl-$SSL_VERSION"
 SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
