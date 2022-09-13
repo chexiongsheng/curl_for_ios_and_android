@@ -1,0 +1,59 @@
+#!/bin/bash
+
+CURL_VERSION=$1
+SSL_VERSION=$2
+ARCH="$3"
+
+case $ARCH in
+    arm-linux-androideabi)
+        OPENSSL_ARCH="android-arm"
+        OUTPUT="armeabi-v7a"
+        ;;
+    aarch64-linux-android)
+        OPENSSL_ARCH="android-arm64"
+        OUTPUT="arm64-v8a"
+        ;;
+    *)
+        echo "Unsupported architecture provided: $ARCH"
+        exit 1
+        ;;
+esac
+
+cd ~
+wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
+sudo apt install unzip -y
+unzip -q NDK
+cd -
+export ANDROID_NDK_HOME=~/android-ndk-r21b
+
+SSL_LIB_NAME="openssl-$SSL_VERSION"
+SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
+
+echo "download ${SSL_DOWNLOAD_URL}"
+
+curl ${SSL_DOWNLOAD_URL} >${SSL_LIB_NAME}.tar.gz
+tar xvfz ${SSL_LIB_NAME}.tar.gz
+cd "${SSL_LIB_NAME}"
+SSL_PREFIX_DIR="~/output/android/openssl-${OPENSSL_ARCH}"
+mkdir -p "${SSL_PREFIX_DIR}"
+./Configure ${OPENSSL_ARCH} --prefix="${SSL_PREFIX_DIR}"
+make -j4
+make install_ssldirs >>"${OUTPUT_ROOT}/log/${ABI}.log" 2>&1
+
+CURL_LIB_TAG="curl-$(echo $CURL_VERSION | sed 's/\./_/g')"
+CURL_LIB_NAME="curl-$CURL_VERSION"
+CURL_DOWNLOAD_URL="https://github.com/curl/curl/releases/download/${CURL_LIB_TAG}/${CURL_LIB_NAME}.tar.gz"
+
+echo "download ${CURL_DOWNLOAD_URL}"
+
+rm -rf "${LIB_DEST_DIR}" "${CURL_LIB_NAME}"
+curl -LO ${CURL_DOWNLOAD_URL} >${CURL_LIB_NAME}.tar.gz
+
+tar xvfz ${CURL_LIB_NAME}.tar.gz
+cd "${CURL_LIB_NAME}"
+
+./configure --target=${ARCH} --enable-static --with-ssl=${SSL_PREFIX_DIR} --without-nghttp2
+make -j4
+
+mkdir ~/curl/lib/${OUTPUT}
+find . -name libcurl.a -exec cp -- "{}" ~/curl/lib/${OUTPUT} \;
