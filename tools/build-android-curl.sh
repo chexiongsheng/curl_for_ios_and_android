@@ -26,7 +26,6 @@ export TOOLCHAIN="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64
 
 SSL_PREFIX_DIR="${HOME}/output/android/openssl-${OPENSSL_ARCH}"
 
-
 CURL_LIB_TAG="curl-$(echo $CURL_VERSION | sed 's/\./_/g')"
 CURL_LIB_NAME="curl-$CURL_VERSION"
 CURL_DOWNLOAD_URL="https://github.com/curl/curl/releases/download/${CURL_LIB_TAG}/${CURL_LIB_NAME}.tar.gz"
@@ -42,5 +41,5 @@ cd "${CURL_LIB_NAME}"
 ./configure --target=${ARCH} --enable-static --with-ssl=${SSL_PREFIX_DIR} --without-nghttp2
 make -j4
 
-mkdir ~/curl/lib/${OUTPUT}
+mkdir -p ~/curl/lib/${OUTPUT}
 find . -name libcurl.a -exec cp -- "{}" ~/curl/lib/${OUTPUT} \;
