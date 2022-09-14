@@ -50,6 +50,7 @@ cd "${CURL_LIB_NAME}"
 ./configure --host=${ARCH} --enable-static --with-ssl=${SSL_PREFIX_DIR} --without-nghttp2
 make -j4
 
+cd ..
 mkdir -p ~/curl/lib/${OUTPUT}
 cp -r include ~/curl/
-find . -name libcurl.a -exec cp -- "{}" ~/curl/lib/${OUTPUT} \;
+find . -name lib*.a -exec cp -- "{}" ~/curl/lib/${OUTPUT} \;
