@@ -22,7 +22,16 @@ case $ARCH in
 esac
 
 export ANDROID_NDK_HOME=${HOME}/android-ndk-r21b
+export PATH="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
 export TOOLCHAIN="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64"
+
+export AR=$TOOLCHAIN/bin/${ARCH}-ar
+export CC=$TOOLCHAIN/bin/${CLANG_PREFIX}-clang
+export CXX=$TOOLCHAIN/bin/${CLANG_PREFIX}-clang++
+export AS=$TOOLCHAIN/bin/${ARCH}-as
+export LD=$TOOLCHAIN/bin/${ARCH}-ld
+export RANLIB=$TOOLCHAIN/bin/${ARCH}-ranlib
+export STRIP=$TOOLCHAIN/bin/${ARCH}-strip
 
 SSL_PREFIX_DIR="${HOME}/output/android/openssl-${OPENSSL_ARCH}"
 
@@ -38,7 +47,7 @@ curl -LO ${CURL_DOWNLOAD_URL} >${CURL_LIB_NAME}.tar.gz
 tar xfz ${CURL_LIB_NAME}.tar.gz
 cd "${CURL_LIB_NAME}"
 
-./configure --target=${ARCH} --enable-static --with-ssl=${SSL_PREFIX_DIR} --without-nghttp2
+./configure --host=${ARCH} --enable-static --with-ssl=${SSL_PREFIX_DIR} --without-nghttp2
 make -j4
 
 mkdir -p ~/curl/lib/${OUTPUT}

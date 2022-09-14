@@ -28,7 +28,6 @@ unzip -q NDK
 cd -
 export ANDROID_NDK_HOME=${HOME}/android-ndk-r21b
 export PATH="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
-
 export TOOLCHAIN="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64"
 
 export AR=$TOOLCHAIN/bin/${ARCH}-ar
