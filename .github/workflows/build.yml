@@ -42,10 +42,7 @@ jobs:
           
       - name: Create Release Asset
         run: |
-          cd ~
           tar cvfz curl_${{env.CURL_VERSION}}.tgz curl
-          cd -
-          cp ~/curl_${{env.CURL_VERSION}}.tgz .
           
       - name: Create Release
         id: create_release
