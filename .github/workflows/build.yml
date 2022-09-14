@@ -9,7 +9,7 @@ on:
 
 env:
   CURL_VERSION: 7.68.0
-  SSL_VERSION: 1.1.1d
+  SSL_VERSION: 1.1.1q
 
 jobs:
   build_android:
