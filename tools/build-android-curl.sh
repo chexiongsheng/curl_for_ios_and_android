@@ -1,8 +1,7 @@
 #!/bin/bash
 
 CURL_VERSION=$1
-SSL_VERSION=$2
-ARCH="$3"
+ARCH="$2"
 MIN_SDK_VERSION=29
 
 case $ARCH in
@@ -22,37 +21,11 @@ case $ARCH in
         ;;
 esac
 
-cd ~
-wget -O NDK -q https://dl.google.com/android/repository/android-ndk-r21b-linux-x86_64.zip
-sudo apt install unzip -y
-unzip -q NDK
-cd -
 export ANDROID_NDK_HOME=${HOME}/android-ndk-r21b
-export PATH="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64/bin:$PATH"
-
 export TOOLCHAIN="${HOME}/android-ndk-r21b/toolchains/llvm/prebuilt/linux-x86_64"
 
-export AR=$TOOLCHAIN/bin/${ARCH}-ar
-export CC=$TOOLCHAIN/bin/${CLANG_PREFIX}-clang
-export CXX=$TOOLCHAIN/bin/${CLANG_PREFIX}-clang++
-export AS=$TOOLCHAIN/bin/${ARCH}-as
-export LD=$TOOLCHAIN/bin/${ARCH}-ld
-export RANLIB=$TOOLCHAIN/bin/${ARCH}-ranlib
-export STRIP=$TOOLCHAIN/bin/${ARCH}-strip
-
-SSL_LIB_NAME="openssl-$SSL_VERSION"
-SSL_DOWNLOAD_URL="https://www.openssl.org/source/${SSL_LIB_NAME}.tar.gz"
-
-echo "download ${SSL_DOWNLOAD_URL}"
-
-curl ${SSL_DOWNLOAD_URL} >${SSL_LIB_NAME}.tar.gz
-tar xfz ${SSL_LIB_NAME}.tar.gz
-cd "${SSL_LIB_NAME}"
 SSL_PREFIX_DIR="${HOME}/output/android/openssl-${OPENSSL_ARCH}"
-mkdir -p "${SSL_PREFIX_DIR}"
-./Configure ${OPENSSL_ARCH} no-shared -D__ANDROID_API__=$MIN_SDK_VERSION --prefix="${SSL_PREFIX_DIR}"
-make -j4
-make install
+
 
 CURL_LIB_TAG="curl-$(echo $CURL_VERSION | sed 's/\./_/g')"
 CURL_LIB_NAME="curl-$CURL_VERSION"

@@ -9,7 +9,7 @@ on:
 
 env:
   CURL_VERSION: 7.46.0
-  SSL_VERSION: 1.1.1d
+  SSL_VERSION: 1.1.1q
 
 jobs:
   build_android:
@@ -23,11 +23,11 @@ jobs:
     - name: Run build script
       run: |
         cd $GITHUB_WORKSPACE
-        sh ./tools/build-android-curl.sh ${{env.CURL_VERSION}} ${{env.SSL_VERSION}} ${{ matrix.target }}
-        mv ~/v8/v8/output/v8 ~/v8/v8/output/v8_9.4
+        sh ./tools/build-android-openssl.sh ${{env.SSL_VERSION}} ${{ matrix.target }}
+        sh ./tools/build-android-curl.sh ${{env.CURL_VERSION}} ${{ matrix.target }}
     - uses: actions/upload-artifact@v2
       with:
-        name: v8_bin
+        name: curl
         path: ~/curl/**/*
 
  
@@ -37,12 +37,15 @@ jobs:
     steps:
       - uses: actions/download-artifact@v1
         with:
-          name: v8_bin
-          path: v8_bin/
+          name: curl
+          path: curl/
           
       - name: Create Release Asset
         run: |
-          cd v8_bin/ && tar cvfz ../v8_bin_${{env.VERSION}}.tgz v8_9.4 && cd -
+          cd ~
+          tar cvfz curl_${{env.CURL_VERSION}}.tgz curl
+          cd -
+          cp ~/curl_${{env.CURL_VERSION}}.tgz .
           
       - name: Create Release
         id: create_release
@@ -50,20 +53,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: V8_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
-          release_name: V8_${{env.VERSION}}_${{ github.event.inputs.tag_date }}
+          tag_name: CURL_${{env.CURL_VERSION}}_${{ github.event.inputs.tag_date }}
+          release_name: CURL_${{env.CURL_VERSION}}_${{ github.event.inputs.tag_date }}
           draft: false
           prerelease: false
           
-      - name: Upload V8
+      - name: Upload CURL
         #id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./v8_bin_${{env.VERSION}}.tgz
-          asset_name: v8_bin_${{env.VERSION}}.tgz
+          asset_path: ./curl_${{env.CURL_VERSION}}.tgz
+          asset_name: curl_${{env.CURL_VERSION}}.tgz
           asset_content_type: application/tgz
           
 
