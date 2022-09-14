@@ -51,4 +51,5 @@ cd "${CURL_LIB_NAME}"
 make -j4
 
 mkdir -p ~/curl/lib/${OUTPUT}
+cp -r include ~/curl/
 find . -name libcurl.a -exec cp -- "{}" ~/curl/lib/${OUTPUT} \;
